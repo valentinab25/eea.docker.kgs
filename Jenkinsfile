@@ -2,28 +2,25 @@ pipeline {
   agent any
 
   environment {
-    EXCLUDE = 'eea.google'
+     GIT_ORG = "valentinab25"
+     GIT_NAME = "eea.docker.kgs"
+     EXCLUDE = 'eea.google'
   }
 
   stages {
-    stage('Build & Test') {
+    stage('Release') {
+      when {
+        allOf {
+          environment name: 'CHANGE_ID', value: ''
+          branch 'master'
+        }
+      }
       steps {
         node(label: 'docker-1.13') {
-          script {
-            try {
-              checkout scm
-              sh '''docker build -t ${BUILD_TAG} .'''
-              sh '''sed -i "s|eeacms/kgs|${BUILD_TAG}|g" devel/Dockerfile'''
-              sh '''docker build -t ${BUILD_TAG}-devel devel'''
-              sh '''docker run -i --net=host --name="${BUILD_TAG}" -e EXCLUDE="${EXCLUDE}" ${BUILD_TAG}-devel /debug.sh tests'''
-            } finally {
-              sh '''docker rm -v ${BUILD_TAG}'''
-              sh '''docker rmi ${BUILD_TAG}-devel'''
-              sh '''docker rmi ${BUILD_TAG}'''
-            }
+          withCredentials([string(credentialsId: 'GitHubTokentest', variable: 'GITHUB_TOKEN')]) {
+            sh '''docker run -i --rm --name="$BUILD_TAG-nightlyrelease" -e GIT_BRANCH="$BRANCH_NAME" -e GIT_NAME="$GIT_NAME" -e GIT_VERSIONFILE="$GIT_VERSIONFILE" -e DOCKERHUB_REPO=valentinab25/eea.docker.kgs -e GIT_ORG="$GIT_ORG" -e GIT_TOKEN="$GITHUB_TOKEN" gitflow'''
           }
         }
-
       }
     }
   }
