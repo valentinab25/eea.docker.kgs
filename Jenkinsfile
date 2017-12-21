@@ -17,7 +17,7 @@ pipeline {
       }
       steps {
         node(label: 'docker-1.13') {
-          withCredentials([string(credentialsId: 'GitHubTokentest', variable: 'GITHUB_TOKEN')]) {
+          withCredentials([string(credentialsId: 'TestNewhook', variable: 'GITHUB_TOKEN')]) {
             sh '''docker run -i --rm --name="$BUILD_TAG-nightlyrelease" -e GIT_BRANCH="$BRANCH_NAME" -e GIT_NAME="$GIT_NAME" -e GIT_VERSIONFILE="$GIT_VERSIONFILE" -e DOCKERHUB_REPO=valentinab25/eea.docker.kgs -e GIT_ORG="$GIT_ORG" -e GIT_TOKEN="$GITHUB_TOKEN" gitflow'''
           }
         }
