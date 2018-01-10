@@ -7,13 +7,15 @@ pipeline {
      EXCLUDE = 'eea.google'
   }
 
+  
+    parameters {
+        string(defaultValue: '', description: 'Used in auto builds', name: 'TARGET_BRANCH')
+    }
+
+  
   stages {
     stage('BuildTest') {
       steps {
-        script {
-        print "DEBUG: parameter foo = ${TARGET_BRANCH}"        
-        print "DEBUG: parameter foo = ${env.TARGET_BRANCH}"        
-        }
         sh '''env'''
       
       }
