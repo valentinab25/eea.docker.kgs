@@ -10,9 +10,10 @@ pipeline {
   stages {
     stage('BuildTest') {
       steps {
-        node(label: 'docker-1.13') {
+        print "DEBUG: parameter foo = ${TARGET_BRANCH}"        
+        print "DEBUG: parameter foo = ${env.TARGET_BRANCH}"        
         sh '''env'''
-        }
+        
       }
     }
 
