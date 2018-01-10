@@ -7,6 +7,14 @@ pipeline {
      EXCLUDE = 'eea.google'
   }
 
+    stage('BuildTest') {
+      steps {
+        node(label: 'docker-1.13') {
+        sh '''env'''
+        }
+      }
+    }
+
   stages {
     stage('Release') {
       when {
