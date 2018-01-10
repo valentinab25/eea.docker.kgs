@@ -10,10 +10,11 @@ pipeline {
   stages {
     stage('BuildTest') {
       steps {
+        script {
         print "DEBUG: parameter foo = ${TARGET_BRANCH}"        
         print "DEBUG: parameter foo = ${env.TARGET_BRANCH}"        
         sh '''env'''
-        
+        }
       }
     }
 
