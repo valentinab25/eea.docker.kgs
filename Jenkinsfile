@@ -16,7 +16,7 @@ pipeline {
   stages {
     stage('BuildTest') {
       steps {
-        sh '''env'''
+           sh "echo ${params.TARGET_BRANCH}"
       
       }
     }
