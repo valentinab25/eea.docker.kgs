@@ -7,6 +7,7 @@ pipeline {
      EXCLUDE = 'eea.google'
   }
 
+  stages {
     stage('BuildTest') {
       steps {
         node(label: 'docker-1.13') {
@@ -15,7 +16,6 @@ pipeline {
       }
     }
 
-  stages {
     stage('Release') {
       when {
         allOf {
